@@ -3,6 +3,13 @@ use std::path::PathBuf;
 use clap::{arg, Parser};
 use datafusion::prelude::*;
 
+
+// Uses snmalloc as the allocator to reduce thread synchronization around allocations
+// https://arrow.apache.org/datafusion/user-guide/library.html#optimized-configuration
+#[global_allocator]
+static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
+
+
 #[derive(Parser)]
 struct Args {
     #[arg(help="Input CSV file")]
